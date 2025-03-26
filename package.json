@@ -1,0 +1,24 @@
+{
+  "name": "collaboration-app",
+  "version": "1.0.0",
+  "main": "node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaviKiran093/collaboration-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaviKiran093/collaboration-app/issues"
+  },
+  "homepage": "https://github.com/RaviKiran093/collaboration-app#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
