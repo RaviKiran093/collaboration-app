@@ -1,16 +1,32 @@
-const { Translate } = require('@google-cloud/translate').v2;
+const { translateText } = require("./translation"); // Import translation module
 
-// Initialize Google Cloud Translate
-const translate = new Translate();
-
-async function translateText(text, targetLang) {
+socket.on("start-translation", async () => {
     try {
-        let [translatedText] = await translate.translate(text, targetLang);
-        return translatedText;
-    } catch (error) {
-        console.error('Error translating text:', error);
-        throw error;
-    }
-}
+        const deepgram = new Deepgram(DEEPGRAM_API_KEY);
+        const response = await deepgram.transcription.preRecorded(
+            { url: "https://YOUR_AUDIO_STREAM_URL" }, 
+            { language: "auto" }
+        );
 
-module.exports = { translateText };
+        if (response.results && response.results.channels[0].alternatives[0].transcript) {
+            const transcript = response.results.channels[0].alternatives[0].transcript;
+            
+            // ✅ Log the recognized speech
+            console.log("Recognized speech:", transcript);
+
+            // ✅ Use Google Translate instead of MyMemory API
+            const translatedText = await translateText(transcript, "en");
+
+            // ✅ Log the translated text
+            console.log("Translated text:", translatedText);
+
+            // Send translated text back to client
+            socket.emit("translated-text", translatedText);
+        } else {
+            socket.emit("translated-text", "No speech detected.");
+        }
+    } catch (error) {
+        console.error("Translation Error:", error);
+        socket.emit("translated-text", "Translation failed.");
+    }
+});

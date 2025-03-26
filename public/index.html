@@ -9,6 +9,7 @@
         video { width: 45%; border: 1px solid black; margin: 10px; }
         #chat { width: 50%; margin: auto; text-align: left; }
         #messages { border: 1px solid black; height: 200px; overflow-y: scroll; padding: 10px; }
+        #subtitles { border: 1px solid black; padding: 10px; width: 50%; margin: auto; min-height: 50px; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -28,6 +29,9 @@
     <h2>Real-time Voice Translation</h2>
     <button id="startTranslate">Translate Voice to English</button>
     <p><strong>Translation:</strong> <span id="translatedText">[Waiting...]</span></p>
+
+    <h2>Subtitles</h2>
+    <div id="subtitles">[Waiting for translation...]</div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -85,9 +89,9 @@
         });
 
         socket.on("translated-text", (text) => {
-            document.getElementById("translatedText").innerText = text;
+            document.getElementById("translatedText").innerText = text; // Existing update
+            document.getElementById("subtitles").innerText = text; // Display subtitles
         });
     </script>
 </body>
 </html>
-
